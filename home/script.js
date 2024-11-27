@@ -32,20 +32,26 @@ const addIncome=()=>{
     
     //newbalance
     balance+=income
-    document.getElementById("balance").innerText=balance
-    document.getElementById("incomeTable").innerHTML+=`    
-    <tr>
-        <td>${count}</td>
-        <td>${income}</td>
-        <td>${discription}</td>
-        <td>${balance}</td>
-        <td>${formattedDate}</td>
-    </tr>
-`
-count++
-   
-document.getElementById("expense").value=""
-document.getElementById("expenseDiscription").value=""
+    if(income!=0 || discription!==""){
+        document.getElementById("balance").innerText=balance
+        document.getElementById("incomeTable").innerHTML+=`    
+        <tr>
+            <td>${count}</td>
+            <td>${income}</td>
+            <td>${discription}</td>
+            <td>${balance}</td>
+            <td>${formattedDate}</td>
+        </tr>
+    `
+    count++
+       
+    document.getElementById("income").value=""
+    document.getElementById("icnomeDiscription").value=""
+    }
+
+else{
+    alert("please enter values")
+}
 }
 sl=1
 const addExpense=()=>{
@@ -70,21 +76,75 @@ const addExpense=()=>{
     
     //newbalance
     balance-=expense
-    document.getElementById("balance").innerText=balance
-    document.getElementById("expenseTable").innerHTML+=`    
-    <tr>
-        <td>${sl}</td>
-        <td>${expense}</td>
-        <td>${discription}</td>
-        <td>${balance}</td>
-        <td>${formattedDate}</td>
-    </tr>
-`
-sl++
-
-document.getElementById("expense").value=""
-document.getElementById("expenseDiscription").value=""
+    if(expense!=0 || discription!==""){
+        document.getElementById("balance").innerText=balance
+        document.getElementById("expenseTable").innerHTML+=`    
+        <tr>
+            <td>${sl}</td>
+            <td>${expense}</td>
+            <td>${discription}</td>
+            <td>${balance}</td>
+            <td>${formattedDate}</td>
+        </tr>
+    `
+    sl++
+    
+    document.getElementById("expense").value=""
+    document.getElementById("expenseDiscription").value=""
+    }
+    else{
+        alert("please enter amount")
+    }
 
 
 }
 
+// Function to export table data to CSV
+document.getElementById("exportCsvBtn").addEventListener("click", function() {
+    // Get the income table and expense table
+    const incomeTable = document.getElementById("incomeTable");
+    
+    const expenseTable = document.getElementById("expenseTable");
+
+
+    // Combine both tables into a CSV format
+    let csvData = "Income Details\nSl no, Amount, Description, Balance, Date\n";
+    csvData += convertTableToCSV(incomeTable);
+    csvData += "\nExpense Details\nSl no, Amount, Description, Balance, Date\n";
+    csvData += convertTableToCSV(expenseTable);
+
+    // Create a link element to trigger download
+    const hiddenElement = document.createElement("a");
+    hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csvData);
+    hiddenElement.target = "_blank";
+    hiddenElement.download = "transaction_details.csv";
+    hiddenElement.click();
+});
+
+// Function to convert table rows to CSV format
+function convertTableToCSV(table) {
+    let csv = '';
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td, th');
+        const rowData = Array.from(cells)
+            .map(cell => cell.textContent)
+            .join(","); // Join each column with a comma
+        csv += rowData + "\n"; // Add the row data with a new line
+    });
+    return csv;
+}
+document.getElementById("searchInput").addEventListener("input", function () {
+    const searchValue = this.value.toLowerCase(); // Get input value and convert to lowercase
+    const rows = document.querySelectorAll("#details tbody tr"); // Get all table rows
+
+    rows.forEach(row => {
+        const rowText = row.textContent.toLowerCase(); // Get the row's text content
+        if (rowText.includes(searchValue)) {
+            row.style.display = ""; // Show row if it matches
+        } else {
+            row.style.display = "none"; // Hide row if it doesn't match
+        }
+    });
+});

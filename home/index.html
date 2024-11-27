@@ -14,15 +14,28 @@
     </head>
 <body>
     
-    <div class="welcomebox d-flex justify-content-between align-items-center bg-secondary py-3 ">
-        <div class=" eachitem"> <img src="../src/original-890b05f26bffa006d49b4c4143703ae9-removebg-preview.png" alt="" width="15px"> <h1 class="heading ms-3 " style="margin: 0;">BudgetBuddy</h1> </div> 
+    <div class="welcomebox d-flex justify-content-between align-items-center  py-3 " style="background-color: #000000;">
+        <div class=" eachitem"> <img src="../src/original-890b05f26bffa006d49b4c4143703ae9-removebg-preview.png" alt="" width="25px"> <h1 class="heading ms-3  " style="margin: 0; color: white;">BudgetBuddy</h1> </div> 
      
     <div class="d-flex align-items-center pe-4">
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search items..."
+                class="form-control "
+            />
+        </div>
         
-        <i class='bx bxs-user-circle text-light' style="font-size: 30px;"></i>
-        <div class="blue-btn p-2 ms-3" style="font-size: 12px;">Export <i class='bx bxs-download text-light'></i></div>
+        <i class='bx bxs-user-circle text-light ms-5' style="font-size: 30px;"></i>
+
+        <div id="exportCsvBtn" class="blue-btn p-2 ms-3" style="font-size: 12px;cursor: pointer;">Export <i class='bx bxs-download text-light'></i></div>
        </div>
     </div>
+    <div class="left-titles mt-4 " style="margin-left: 5%; ">
+        <h6 class="Welcome" style="font-size: 28px;">Welcome <span id="nameofuser" ></span> </h6>
+        <p class="subwelcome" style="font-size: 14px; color: #232323 ;">Welcome to your BudgetBuddy.</p>
+   </div>
     <div class="containers mt-0 m-5">
      
            
@@ -40,13 +53,10 @@
             </div> -->
            
               
-                  <div class="left-titles mt-4">
-                        <h1 class="Welcome">Welcome <span id="nameofuser"></span> </h1>
-                        <h5 class="subwelcome">Welcome to your BudgetBuddy.</h5>
-                   </div>
-    <div class="row moneybox">  <h5 id="" class="balance-money text-center">Balance  $<span id="balance">0</span> <button class="balanceEditbtn"><i class='bx bx-edit'></i></button></h5>  </div>
-            <div class="row  pt-3">
-                <div class="col-12 col-lg-6 mt-3 transaction-box">
+               
+    <div class=" moneybox text-center">  <span id="" class="balance-money text-center p-3 " style="width: max-content;">Balance  ₹<span id="balance">0</span> <button class="balanceEditbtn"></button></span> </div>
+            <div class="row  pt-3 d-flex justify-content-evenly">
+                <div class="col-12 col-lg-5 mt-3  transaction-box">
                     <h5  class="money text-center">Add Income</h5>
                         <div class=" add-transation-box-discription mt-3 ">
                             <input type="text" id="income"  oninput="this.value = this.value.replace(/[^0-9]/g, '')"  class="inputbox w-75" placeholder="Income">
@@ -54,7 +64,7 @@
                             <button class="btns text-center w-75 " onclick="addIncome()">Add</button>
                          </div>
                      </div>
-                <div class="col-12 col-lg-6 mt-3 transaction-box">
+                <div class="col-12 col-lg-5 mt-3 transaction-box">
                         <h5  class="money text-center">Add Expense</h5>
                         <div class=" add-transation-box-discription mt-3">
                         <input type="text" id="expense"  oninput="this.value = this.value.replace(/[^0-9]/g, '')"  class="inputbox w-75" placeholder="Expense">
@@ -63,47 +73,55 @@
                     </div>
                 </div>
             </div>
-            <div class="row w-100 mt-5 pt-4 d-none " id="details">
-                <h5 class="text-center">Details</h5>
-                <div class="col-md-6">
-                    <h5 class="text-center">Income details</h5>
-                    <table class="table table-primary" id="">
-                        <thead>
-                            <tr>
-                                <th>Sl no</th>
-                                <th>Amount</th>
-                                <th>Discription</th>
-                                <th>Balance</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="incomeTable">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="text-center">Expense details</h5>
-
-                    <table class="table table-danger" id="">
-                        <thead>
-                            <tr>
-                                <th>Sl no</th>
-                                <th>Amount</th>
-                                <th>Discription</th>
-                                <th>Balance</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expenseTable">
-                        </tbody>
-                    </table>
-                </div>
-             
-            </div>
+        </div>
           
+          <div class="row w-100 mt-5 pt-4 d-none mx-1" id="details">
+    <h5 class="text-center">Details</h5>
+    <div class="col-md-6 ">
+        <h5 class="text-center">Income details</h5>
+        <div class=" w-100">
+            <table class="table table-light w-100" id="">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Sl no</th>
+                        <th>Amount</th>
+                        <th>Discription</th>
+                        <th>Balance</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="incomeTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5 class="text-center">Expense details</h5>
+        <div class="">
+            <table class="table table-light" id="">
+                <thead class="table-dark" >
+                    <tr>
+                        <th>Sl no</th>
+                        <th>Amount</th>
+                        <th>Discription</th>
+                        <th>Balance</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
        
      
 </div>
+<div>
+    <p class="text-center">Search by date</p>
+
+</div>
+
 </body>
 <script>
  

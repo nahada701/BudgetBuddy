@@ -35,10 +35,11 @@
     color: rgba(80, 80, 80, 0.762);
 }
 .inputs{
+    height: 50px;
     border-radius: 5px;
     border: 1px solid #949494;
     padding: 3px;
-    font-size: 15px;
+    font-size: 18px;
     color: black;
     outline: none;
 }
@@ -47,6 +48,7 @@
     width: 49%;
 }
 .login{
+    height: 50px;
     color: white;
     border-radius: 5px;
     border: none;
@@ -59,6 +61,7 @@
     background-color: #2a82f9;  
 }
 .google{
+    height: 50px;
     border: 1px solid rgba(80, 80, 80, 0.596);
     font-size: 14px;
     color: #000000;

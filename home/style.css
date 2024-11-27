@@ -3,13 +3,13 @@
     padding: 0;
     font-family: "Archivo", sans-serif;
 }
+body{
+}
 .box{
-
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         border-radius: 30px;
     background-color:rgb(255, 255, 255);
     border-radius: 0px;
-
     background-size: cover;
 }
 .sidebar{
@@ -23,9 +23,7 @@
     font-size: 19px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.left-titles{
- 
-}
+
 .eachitem{
     margin-top: 10px;
     border-radius: 5px;
@@ -62,7 +60,7 @@ i{
     color: gray;
 }
 .selected{
-    background-color: #2a84f94b;
+    background-color: #2a82f9;
     color: blue;
 }
 .selected > *{
@@ -70,13 +68,18 @@ i{
 }
 .money{
     font-size: 25px;
-    color: #ffffff;
+    color: #0d0202;
     font-weight: 300;
 }
 .balance-money{
+    /* border: 2px #0131e5 solid; */
+    border-radius: 7px;
     margin-top: 20px;
-    font-size: 25px;
-    color: #014296;
+    font-size: 20px;
+    background-color: #03A9F4;
+    color: #ffffff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
 }
 .income{
     
@@ -101,24 +104,25 @@ i{
    
 }
 .transaction-box{
-   background-color: #192434;
+
+   /* background-color: #2a84f9a7; */
    padding: 50px;
    /* border-radius: 10px; */
-   border: 3px solid #014296;
+   /* border: 3px solid #2a82f9; */
    
- box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+ box-shadow: rgba(100, 100, 111, 0.2) 7px 7px 29px 7px;
 }
 .btns{
-    background-color: #014296;
+    background-color: #03A9F4;
     border: none;
     border-radius: 10px;
     height: 40px;
     color: white;
 }
 .blue-btn{
-    background-color: #014296;
+    background-color: #03A9F4;
     border: none;
-    border-radius: 10px;
+    border-radius: 7px;
     color: white;
     height: 30px;
    
@@ -130,4 +134,18 @@ i{
     padding-top: 20px;
     padding-bottom: 20px;
 
+}
+@media (max-width: 768px) {
+    .table thead th, .table td {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .table th, .table td {
+        word-wrap: break-word;
+    }
+    
+    .table {
+        width: 100%;
+    }
 }
