@@ -1,26 +1,55 @@
+
 nameofuser.innerHTML=localStorage.getItem("username")
-    
-
-
-
-
+const openUser=()=>{
+    document.getElementById("logout").classList.toggle("d-none")
+}
 const select = (idname) => {
     // Remove "selected" class from all sidebar items
     document.querySelectorAll('.eachitem').forEach(item => item.classList.remove('selected'));
-    
-    // Add "selected" class to the clicked item
     document.getElementById(idname).classList.add('selected');
+
+    // Hide all content boxes
+    document.querySelectorAll('.col-md-9').forEach(box => box.classList.add('d-none'));
+
+    // Show the selected content box
+    if (idname === "dashboard") {
+        document.getElementById("dashboardBox").classList.remove('d-none');
+    } else if (idname === "transactions") {
+        document.getElementById("TransactionsAddingBox").classList.remove('d-none');
+    } else if (idname === "reports") {
+        
+        document.getElementById("reportsBox").classList.remove('d-none');
+    }
+};
+const toggleSidebar = () => {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+};
+
+
+// Remove export button from navigation bar
+document.querySelector("#exportCsvBtn").remove();
+
+const showTransations=()=>{
+  document.getElementById("details").classList.remove("d-none")
+document.getElementById("TransactionsAddingBox").classList.add("d-none")
+document.getElementById("TransactionsAddingBox").classList.remove("col-md-9")
+
+
 }
 let count=1
 const addIncome=()=>{
     //sl no
-    document.getElementById("details").classList.remove("d-none")
+    // document.getElementById("details").classList.remove("d-none")
     //balance
+    let toatalincome=0
     let balance=Number(document.getElementById("balance").innerText)
    
     //income
     const income=Number(document.getElementById("income").value)
     //discription
+    toatalincome+=income
+    document.getElementById("totalIncome").innerHTML=toatalincome
     const discription=document.getElementById("icnomeDiscription").value
 
     const now = new Date();
@@ -34,6 +63,7 @@ const addIncome=()=>{
     balance+=income
     if(income!=0 || discription!==""){
         document.getElementById("balance").innerText=balance
+        document.getElementById("balanceOfDashboard").innerText=balance
         document.getElementById("incomeTable").innerHTML+=`    
         <tr>
             <td>${count}</td>
@@ -55,15 +85,17 @@ else{
 }
 sl=1
 const addExpense=()=>{
-    document.getElementById("details").classList.remove("d-none")
+    // document.getElementById("details").classList.remove("d-none")
 
     //sl no
-   
+    let totalexpense=0
     //balance
     let balance=Number(document.getElementById("balance").innerText)
    
     //income
     const expense=Number(document.getElementById("expense").value)
+     totalexpense+=expense
+     document.getElementById("totalExpense").innerHTML=totalexpense
     //discription
     const discription=document.getElementById("expenseDiscription").value
 
@@ -78,6 +110,7 @@ const addExpense=()=>{
     balance-=expense
     if(expense!=0 || discription!==""){
         document.getElementById("balance").innerText=balance
+        document.getElementById("balanceOfDashboard").innerText=balance
         document.getElementById("expenseTable").innerHTML+=`    
         <tr>
             <td>${sl}</td>

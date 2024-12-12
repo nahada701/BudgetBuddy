@@ -13,8 +13,8 @@ body{
     background-size: cover;
 }
 .sidebar{
-    padding-top: 40px;
-    min-height: 100vh;
+    padding-top: 20px;
+    min-height: 85vh;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
@@ -47,6 +47,17 @@ body{
     font-weight: 600;
     font-size: 20px;
 }
+@media(max-width: 767px){
+    .heading{
+        display: none;
+    }
+    .Bicon{
+        top: 21px;
+        position: absolute;
+       
+        right: 50%;
+    }
+}
 i{
     color: rgb(76, 76, 76);
 }
@@ -61,13 +72,56 @@ i{
 }
 .selected{
     background-color: #2a82f9;
-    color: blue;
+    color: rgb(255, 255, 255);
 }
 .selected > *{
-    color: blue;
+    color: rgb(244, 244, 244);
 }
+.sidebar-wrapper {
+    position: relative;
+}
+
+.menu-icon {
+    display: none;
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-icon i {
+    color: #2a82f9;
+}
+
+@media (max-width: 767px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .sidebar {
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        left: -100%;
+        width: 250px;
+        height: 100vh;
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        transition: left 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+}
+
 .money{
     font-size: 25px;
+    font-weight: 700;
     color: #0d0202;
     font-weight: 300;
 }
@@ -76,7 +130,7 @@ i{
     border-radius: 7px;
     margin-top: 20px;
     font-size: 20px;
-    background-color: #03A9F4;
+    background-color: #2a82f9;
     color: #ffffff;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
@@ -113,7 +167,7 @@ i{
  box-shadow: rgba(100, 100, 111, 0.2) 7px 7px 29px 7px;
 }
 .btns{
-    background-color: #03A9F4;
+    background-color: #000000;
     border: none;
     border-radius: 10px;
     height: 40px;
@@ -124,7 +178,7 @@ i{
     border: none;
     border-radius: 7px;
     color: white;
-    height: 30px;
+   
    
 }
 .balanceEditbtn{
@@ -134,6 +188,12 @@ i{
     padding-top: 20px;
     padding-bottom: 20px;
 
+}
+.tableHead{
+    margin: 0;
+    padding: 1.25rem;
+    border: 2px solid #212529;
+    border-radius: 10px 10px 0px 0px;
 }
 @media (max-width: 768px) {
     .table thead th, .table td {
@@ -148,4 +208,39 @@ i{
     .table {
         width: 100%;
     }
+}
+.stat-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-bottom: 15px;
+}
+
+.stat-box h6 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-box p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2a82f9;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+.logout{
+    position: absolute;
+    top: 74px;
+   right: 0px;
+    height: 50px;
+    width: 157px;
+    background-color: #2a82f9;
+    color: white;
+    text-align: center;
+    padding-top: 1rem
 }
