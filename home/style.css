@@ -57,6 +57,31 @@ body{
        
         right: 50%;
     }
+    .Welcome{
+text-align: center;
+    }
+    .subwelcome{
+text-align: center;
+
+
+
+    }
+    .dashboard-summary{
+    margin-left: 1.5rem;
+    }
+    #TransactionsAddingBox{
+        margin-left: .9rem; 
+    }
+    #reportsBox{
+        width: 100;
+        padding-left: 3.5rem;
+        padding-right: 0 !important;
+    }
+    .logout{
+        position: relative;
+        top: 66px !important;
+    }
+
 }
 i{
     color: rgb(76, 76, 76);
