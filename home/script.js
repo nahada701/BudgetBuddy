@@ -128,6 +128,8 @@ const addIncome = () => {
 
         // Save to local storage
         saveToLocalStorage();
+        document.getElementById("income").value=""
+        document.getElementById("icnomeDiscription").value=""
     } else {
         alert("Please enter valid income and description.");
     }
@@ -160,6 +162,8 @@ const addExpense = () => {
 
         // Save to local storage
         saveToLocalStorage();
+        document.getElementById("expense").value=""
+        document.getElementById("expenseDiscription").value=""
     } else {
         alert("Please enter valid expense and description.");
     }
