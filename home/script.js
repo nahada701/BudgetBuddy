@@ -1,5 +1,11 @@
+window.onload = () => {
+    loadFromLocalStorage();
+};
 
-nameofuser.innerHTML=localStorage.getItem("username")
+nameofuser.innerHTML=localStorage.getItem("currentUser")
+let toatalincome=0
+let totalexpense=0
+let balance=0
 const openUser=()=>{
     document.getElementById("logout").classList.toggle("d-none")
 }
@@ -37,100 +43,171 @@ document.getElementById("TransactionsAddingBox").classList.remove("col-md-9")
 
 
 }
+//local storahe.setItem("users")
+function saveToLocalStorage() {
+    const data = {
+        income: incomeData, // Array of income entries
+        expense: expenseData, // Array of expense entries
+        balance: balance,    // Save the current balance
+    };
+
+    // Retrieve the users array from local storage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Get the current user from local storage
+    const currentUser = localStorage.getItem("currentUser");
+
+    // Find the index of the current user in the users array
+    const userIndex = users.findIndex(user => user.username === currentUser);
+
+    if (userIndex !== -1) {
+        // If the user exists, update their budgetData
+        const currentUserData = users[userIndex];
+
+        if (!Array.isArray(currentUserData.budgetData)) {
+            currentUserData.budgetData = []; // Initialize if it doesn't exist
+        }
+
+        currentUserData.budgetData=(data); // Add the new budget data
+
+        // Replace the modified user data back into the users array
+        users[userIndex] = currentUserData;
+
+        // Save the updated users array back to local storage
+        localStorage.setItem("users", JSON.stringify(users));
+    } else {
+        console.error("Current user not found in local storage!");
+    }
+}
+
+
+function loadFromLocalStorage() {
+    const currentUser=localStorage.getItem("currentUser")
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const currentUserData=users.find(user => user.username === currentUser);
+    let data=currentUserData.budgetData
+    console.log(data);
+
+    if (data) {
+        incomeData = data.income || [];
+        expenseData = data.expense || [];
+        balance = data.balance || 0; // Load the saved balance
+        // Update the UI with loaded data
+        updateIncomeTable();
+        updateExpenseTable();
+        updateDashboard();
+    }
+}
 let count=1
-const addIncome=()=>{
-    //sl no
-    // document.getElementById("details").classList.remove("d-none")
-    //balance
-    let toatalincome=0
-    let balance=Number(document.getElementById("balance").innerText)
-   
-    //income
-    const income=Number(document.getElementById("income").value)
-    //discription
-    toatalincome+=income
-    document.getElementById("totalIncome").innerHTML=toatalincome
-    const discription=document.getElementById("icnomeDiscription").value
+let incomeData = [];
+let expenseData = [];
 
+const addIncome = () => {
+    const income = Number(document.getElementById("income").value);
+    const description = document.getElementById("icnomeDiscription").value;
     const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-    const year = now.getFullYear();
-    //date
-    const formattedDate = `${day}/${month}/${year}`;
-    
-    //newbalance
-    balance+=income
-    if(income!=0 || discription!==""){
-        document.getElementById("balance").innerText=balance
-        document.getElementById("balanceOfDashboard").innerText=balance
-        document.getElementById("incomeTable").innerHTML+=`    
-        <tr>
-            <td>${count}</td>
-            <td>${income}</td>
-            <td>${discription}</td>
-            <td>${balance}</td>
-            <td>${formattedDate}</td>
-        </tr>
-    `
-    count++
-       
-    document.getElementById("income").value=""
-    document.getElementById("icnomeDiscription").value=""
-    }
+    const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${now.getFullYear()}`;
 
-else{
-    alert("please enter values")
-}
-}
+    if (income !== 0 && description !== "") {
+        const entry = {
+            id: count,
+            amount: income,
+            description: description,
+            balance: balance + income, // Updated balance for this entry
+            date: formattedDate,
+        };
+        incomeData.push(entry);
+        count++;
+        balance += income; // Update global balance
+
+        // Update UI
+        updateIncomeTable();
+        updateDashboard();
+
+        // Save to local storage
+        saveToLocalStorage();
+    } else {
+        alert("Please enter valid income and description.");
+    }
+};
+
 sl=1
-const addExpense=()=>{
-    // document.getElementById("details").classList.remove("d-none")
-
-    //sl no
-    let totalexpense=0
-    //balance
-    let balance=Number(document.getElementById("balance").innerText)
-   
-    //income
-    const expense=Number(document.getElementById("expense").value)
-     totalexpense+=expense
-     document.getElementById("totalExpense").innerHTML=totalexpense
-    //discription
-    const discription=document.getElementById("expenseDiscription").value
-
+const addExpense = () => {
+    const expense = Number(document.getElementById("expense").value);
+    const description = document.getElementById("expenseDiscription").value;
     const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-    const year = now.getFullYear();
-    //date
-    const formattedDate = `${day}/${month}/${year}`;
-    
-    //newbalance
-    balance-=expense
-    if(expense!=0 || discription!==""){
-        document.getElementById("balance").innerText=balance
-        document.getElementById("balanceOfDashboard").innerText=balance
-        document.getElementById("expenseTable").innerHTML+=`    
-        <tr>
-            <td>${sl}</td>
-            <td>${expense}</td>
-            <td>${discription}</td>
-            <td>${balance}</td>
-            <td>${formattedDate}</td>
-        </tr>
-    `
-    sl++
-    
-    document.getElementById("expense").value=""
-    document.getElementById("expenseDiscription").value=""
+    const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${now.getFullYear()}`;
+
+    if (expense !== 0 && description !== "") {
+        const entry = {
+            id: sl,
+            amount: expense,
+            description: description,
+            balance: balance - expense, // Updated balance for this entry
+            date: formattedDate,
+        };
+        expenseData.push(entry);
+        sl++;
+        balance -= expense; // Update global balance
+
+        // Update UI
+        updateExpenseTable();
+        updateDashboard();
+
+        // Save to local storage
+        saveToLocalStorage();
+    } else {
+        alert("Please enter valid expense and description.");
     }
-    else{
-        alert("please enter amount")
-    }
+};
 
 
+function updateIncomeTable() {
+    const incomeTable = document.getElementById("incomeTable");
+    incomeTable.innerHTML = "";
+    incomeData.forEach((entry) => {
+        incomeTable.innerHTML += `
+            <tr>
+                <td>${entry.id}</td>
+                <td>${entry.amount}</td>
+                <td>${entry.description}</td>
+                <td>${entry.balance}</td>
+                <td>${entry.date}</td>
+            </tr>
+        `;
+    });
 }
+
+function updateExpenseTable() {
+    const expenseTable = document.getElementById("expenseTable");
+    expenseTable.innerHTML = "";
+    expenseData.forEach((entry) => {
+        expenseTable.innerHTML += `
+            <tr>
+                <td>${entry.id}</td>
+                <td>${entry.amount}</td>
+                <td>${entry.description}</td>
+                <td>${entry.balance}</td>
+                <td>${entry.date}</td>
+            </tr>
+        `;
+    });
+}
+function updateDashboard() {
+    const totalIncome = incomeData.reduce((sum, entry) => sum + entry.amount, 0);
+    const totalExpense = expenseData.reduce((sum, entry) => sum + entry.amount, 0);
+
+    document.getElementById("totalIncome").innerText = `₹${totalIncome}`;
+    document.getElementById("totalExpense").innerText = `₹${totalExpense}`;
+    document.getElementById("balance").innerText = `${balance}`;
+    document.getElementById("balanceOfDashboard").innerText = `₹${balance}`;
+}
+
+
 
 // Function to export table data to CSV
 document.getElementById("exportCsvBtn").addEventListener("click", function() {

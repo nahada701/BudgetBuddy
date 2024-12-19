@@ -23,6 +23,8 @@
                 <div class="mb-3">
                   <input type="text" class=" w-100 inputs " id="username" placeholder="Username" aria-describedby="emailHelp">
                 </div>
+                <p class="text-center text-danger d-none" id="usernmaevalidation" style="font-size: 12px;">User already exist try something different</p>
+
                 <div class="mb-3">
                   <input type="password" class="w-100 inputs" id="password1" placeholder="Password">
                 </div>
@@ -30,11 +32,12 @@
                 <div class="mb-3">
                     <input type="password" class="w-100 inputs" id="password2" placeholder="Confirm Password">
                 </div>
-                <p class="text-center text-danger d-none" id="allfieldalert" style="font-size: 9px;">Please enter all fields</p>
+                <p class="text-center text-danger d-none" id="allfieldalert" style="font-size: 12px;">Please enter all fields</p>
 
-                <p class="text-center text-danger d-none" id="pwvalidation" style="font-size: 9px;">Password must include an uppercase letter, lowercase letter, number, and special character</p>
-                <p class="text-center text-danger d-none" id="pwalert" style="font-size: 10px;">Passwords don't match</p>
+                <p class="text-center text-danger d-none" id="pwvalidation" style="font-size: 12px;">Password must include an uppercase letter, lowercase letter, number, and special character</p>
+                <p class="text-center text-danger d-none" id="pwalert" style="font-size: 12px;">Passwords don't match</p>
                 <button type="button" onclick="signup()" class="login text-center mb-3 w-100">Signup</button>
+               <!-- /google -->
                 <button type="button" class="google text-center mb-5 w-100"> <img src="../src/google.png" alt="" width="15px"> Signup with Google</button>
             </form>
         </div>
@@ -44,9 +47,9 @@
 
 </body>
 <script>
-    const signup = () => {
+const signup = () => {
     // Get input values
-    const username = document.getElementById("username").value;
+    const username = document.getElementById("username").value.trim();
     const password1 = document.getElementById("password1").value;
     const password2 = document.getElementById("password2").value;
 
@@ -69,17 +72,32 @@
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password1);
 
         if (hasUppercase && hasLowercase && hasNumber && hasSpecialChar) {
-            localStorage.setItem("username",username)
-            localStorage.setItem("password",password1)
+            // Get existing users from localStorage
+            const users = JSON.parse(localStorage.getItem("users")) || [];
 
-            window.location = "./login.html"; // Redirect if password is valid
+            // Check if the username already exists
+            if (users.some(user => user.username === username)) {
+                document.getElementById("usernmaevalidation").classList.remove("d-none")
+
+                usernmaevalidation
+                return;
+            }   
+                document.getElementById("usernmaevalidation").classList.add("d-none")
+
+            // Add new user
+            users.push({ username, password: password1,budgetData:[] });
+
+            // Save updated user list to localStorage
+            localStorage.setItem("users", JSON.stringify(users));
+
+            window.location = "./login.html"; // Redirect if signup is successful
         } else {
             document.getElementById("pwvalidation").classList.remove("d-none");
-        } 
+        }
     } else {
         document.getElementById("allfieldalert").classList.remove("d-none");
     }
-}
+};
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

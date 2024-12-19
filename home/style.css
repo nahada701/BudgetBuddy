@@ -12,9 +12,12 @@ body{
     border-radius: 0px;
     background-size: cover;
 }
+.containers{
+min-height: 90vh;
+}
 .sidebar{
     padding-top: 20px;
-    min-height: 85vh;
+    height: 100%;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;

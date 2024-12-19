@@ -27,12 +27,14 @@
                 <div class="mb-3">
                     <input type="password" class="w-100 inputs" id="password" placeholder="Password">
                   </div>
-                 <p class="text-center text-danger d-none" id="alertfield" style="font-size: 10px;">Please enter both field</p>
-                 <p class="text-center text-danger d-none" id="credentialalert" style="font-size: 10px;">Wrong Credentials</p>
+
+                 <p class="text-center text-danger d-none" id="alertfield" style="font-size: 12px;">Please enter both field</p>
+                 <p class="text-center text-danger d-none" id="credentialalert" style="font-size: 12px;">Incorrect username or password</p>
+
 
                 <button type="button"  onclick="login()" class=" login text-center mb-3  w-100">Login</button>
 
-              
+              <!-- google -->
                 <button type="button"  class=" mb-3 google text-center w-100 "> <img src="../src/google.png" alt="" width="15px"> Login with Google</button>
                 <p class=" signin text-center mb-5 ">Don't have an account? <a href="./signin.html" class="ps-1" style="text-decoration: none;color: #2a82f9;">Sign up</a></p> 
 
@@ -49,25 +51,32 @@
 <script>
     console.log(localStorage.getItem("username"));
     
-    const login=()=>{
-    if(username.value && password.value){
-        if(username.value!==localStorage.getItem("username") || password.value!==  localStorage.getItem("password")){
-            document.getElementById("credentialalert").classList.remove("d-none")
+    const login = () => {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
 
-        }
-      
-        else{
-         window.location="../home/index.html"
-        }
-     
-        
-    }
-    else{
-      
-        document.getElementById("alertfield").classList.remove("d-none")
-    }
-}
+    // Hide previous messages
+    document.getElementById("alertfield").classList.add("d-none");
+    document.getElementById("credentialalert").classList.add("d-none");
 
+    // Check if fields are filled
+    if (username && password) {
+        // Get stored users from localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        // Check if username and password match any stored user
+        const user = users.find(user => user.username === username && user.password === password);
+
+        if (user) {
+            localStorage.setItem("currentUser",username)
+            window.location = "../home/index.html"; // Redirect after successful login
+        } else {
+            document.getElementById("credentialalert").classList.remove("d-none");
+        }
+    } else {
+        document.getElementById("alertfield").classList.remove("d-none");
+    }
+};
 
 </script>
 <script src="script.js"></script>
